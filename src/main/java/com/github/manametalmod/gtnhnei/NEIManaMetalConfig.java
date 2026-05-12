@@ -128,15 +128,15 @@ public final class NEIManaMetalConfig implements IConfigureNEI {
                 profiles.add(loadProfile(
                         config,
                         "metal_fusion_table",
-                        false,
-                        "project.studio.manametalmod.client.GuiMetalFusionTable",
-                        "crafting",
+                        true,
+                        "project.studio.manametalmod.client.GuiMetalCraftTable",
+                        "MetalTable_Crafting",
                         5,
-                        11,
-                        false,
-                        new int[0],
-                        new int[0],
-                        new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
+                        0,
+                        true,
+                        new int[] { 55, 55, 36, 66, 75, 84, 114, 95, 95 },
+                        new int[] { 17, 35, 28, 53, 9, 53, 28, 35, 17 },
+                        new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }));
 
                 String[] extraProfiles = config.get(
                         "general",

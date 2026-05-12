@@ -1,6 +1,6 @@
 # ManaMetalMod GTNH NEI Support
 
-Small Forge 1.7.10 addon for GTNH NotEnoughItems. It registers ManaMetalMod's custom ManaCraftingTable GUI as a normal NEI `crafting` overlay so the recipe overlay no longer fails with `mismatch crafting grid`.
+Small Forge 1.7.10 addon for GTNH NotEnoughItems. It registers ManaMetalMod's custom crafting GUIs with NEI overlay handlers so recipe overlay no longer fails with `mismatch crafting grid`.
 
 ## Current status
 
@@ -14,7 +14,7 @@ This repo contains a configurable integration skeleton:
 
 It does not hard-code ManaMetalMod classes yet, because the exact GUI/container class names and slot mapping need to be confirmed from the ManaMetalMod jar.
 
-By default only `mana_crafting_table` is enabled. `metal_fusion_table` is generated as a disabled template so it can be filled in later without changing code.
+By default `mana_crafting_table` and `metal_fusion_table` are enabled for ManaMetalMod 7.5.2.
 
 ## Build inputs
 
@@ -134,16 +134,72 @@ The NEI recipe handler uses the same shape at x coordinates `45,45,45,66,75,84,1
 
 If ManaMetalMod uses special mana/catalyst/ghost slots, do not include those in `inputSlots`; only include the nine recipe input slots.
 
-The generated config also contains:
+The generated config also contains the metal fusion table profile:
 
 ```text
 [metal_fusion_table]
-enabled=false
-guiClassName=manametalmod.client.gui.GuiMetalFusionTable
+enabled=true
+guiClassName=project.studio.manametalmod.client.GuiMetalCraftTable
+overlayIdent=MetalTable_Crafting
+overlayOffsetX=5
+overlayOffsetY=0
+registerDefaultOverlayAlias=true
+useExplicitSlotMapping=true
 gridWidth=3
+inputStackRelXs <
+    55
+    55
+    36
+    66
+    75
+    84
+    114
+    95
+    95
+>
+inputStackRelYs <
+    17
+    35
+    28
+    53
+    9
+    53
+    28
+    35
+    17
+>
+inputSlots <
+    0
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+>
 ```
 
-When the metal fusion table's real GUI class and slot mapping are known, set `enabled=true` and update `guiClassName`, `gridWidth`, and `inputSlots`.
+For ManaMetalMod 7.5.2, the metal fusion table mapping found from `ContainerMetalCraftTable` is:
+
+```text
+0 = input, x=60, y=17
+1 = input, x=60, y=35
+2 = input, x=41, y=28
+3 = input, x=71, y=53
+4 = input, x=80, y=9
+5 = input, x=89, y=53
+6 = input, x=119, y=28
+7 = input, x=100, y=35
+8 = input, x=100, y=17
+9 = output, x=80, y=28
+10-18 = ManaMetalMod tile inventory slots, x=8..152, y=104
+19-45 = player inventory
+46-54 = hotbar
+```
+
+The NEI recipe handler uses x coordinates `55,55,36,66,75,84,114,95,95` and y coordinates `17,35,28,53,9,53,28,35,17`. The `overlayOffsetX=5` and `overlayOffsetY=0` values map those NEI positions to the real GUI slot positions.
 
 Additional future containers can be added without code changes by putting category names in:
 
