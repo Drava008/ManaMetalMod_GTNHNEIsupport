@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "manametalmod_gtnh_nei_support",
+    "name": "ManaMetalMod GTNH NEI Support",
+    "description": "Adds GTNH NotEnoughItems crafting overlay support for ManaMetalMod custom crafting GUIs.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Codex"],
+    "credits": "GTNH NotEnoughItems API",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": ["required-after:NotEnoughItems"]
+  }
+]

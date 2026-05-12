@@ -1,0 +1,65 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "Forge"
+            url = "https://maven.minecraftforge.net/"
+        }
+        maven {
+            name = "Sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT"
+    }
+}
+
+apply plugin: "forge"
+
+version = "0.1.0"
+group = "com.github.manametalmod.gtnhnei"
+archivesBaseName = "ManaMetalMod-GTNH-NEI-Support"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "run"
+}
+
+repositories {
+    flatDir {
+        dirs "libs"
+    }
+}
+
+dependencies {
+    compile fileTree(dir: "libs", include: ["*.jar"])
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == "downloadClient") {
+        File cachedClient = new File(
+                gradle.gradleUserHomeDir,
+                "caches/minecraft/net/minecraft/minecraft/1.7.10/minecraft-1.7.10.jar")
+        task.onlyIf {
+            !cachedClient.exists() || cachedClient.length() == 0
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include "mcmod.info"
+        expand "version": project.version, "mcversion": project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "mcmod.info"
+    }
+}
